@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<unattend xmlns="urn:schemas-microsoft-com:unattend">
+    <settings pass="oobeSystem">
+        <component name="Microsoft-Windows-International-Core"
+            processorArchitecture="amd64"
+            publicKeyToken="31bf3856ad364e35"
+            language="neutral"
+            versionScope="nonSxS"
+            xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State"
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <!-- Disables all p;rompts for language and locale selection during oobe -->
+            <InputLocale>en-US</InputLocale>
+            <SystemLocale>en-US</SystemLocale>
+            <UILanguage>en-US</UILanguage>
+            <UILanguageFallback>en-US</UILanguageFallback>
+            <UserLocale>en-US</UserLocale>
+        </component>
+        <component name="Microsoft-Windows-Shell-Setup"
+            processorArchitecture="amd64"
+            publicKeyToken="31bf3856ad364e35"
+            language="neutral"
+            versionScope="nonSxS"
+            xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State"
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <!-- Removes all the oobe prompts -->
+            <OOBE>
+                <HideEULAPage>true</HideEULAPage>
+                <HideLocalAccountScreen>true</HideLocalAccountScreen>
+                <HideOEMRegistrationScreen>true</HideOEMRegistrationScreen>
+                <HideOnlineAccountScreens>true</HideOnlineAccountScreens>
+                <HideWirelessSetupInOOBE>true</HideWirelessSetupInOOBE>
+                <ProtectYourPC>3</ProtectYourPC>
+            </OOBE>
+            <!-- Sets time zone to Eastern Standard Time -->
+            <TimeZone>Eastern Standard Time</TimeZone>
+            <!-- Create a single user account named 'vagrant' with password 'vagrant' and adds to admin group -->
+            <UserAccounts>
+                <LocalAccounts>
+                    <LocalAccount wcm:action="add">
+                        <Password>
+                            <Value>vagrant</Value>
+                            <PlainText>true</PlainText>
+                        </Password>
+                        <Description>Vagrant Account</Description>
+                        <DisplayName>Vagrant</DisplayName>
+                        <Group>Administrators</Group>
+                        <Name>vagrant</Name>
+                    </LocalAccount>
+                </LocalAccounts>
+            </UserAccounts>
+            <!-- Configurs the 'vagrant' account to auto logon once -->
+            <AutoLogon>
+                <Username>vagrant</Username>
+                <Enabled>true</Enabled>
+                <LogonCount>1</LogonCount>
+                <Password>
+                    <Value>vagrant</Value>
+                    <PlainText>true</PlainText>
+                </Password>
+            </AutoLogon>
+            <FirstLogonCommands>
+                <!-- Download winrm script and execute. For some reason fails if you try to do this all in one command so we break it into 3 -->
+                <SynchronousCommand wcm:action="add">
+                    <CommandLine>cmd.exe /c powershell -command "Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Force"</CommandLine>
+                    <Description>Set Execution Policy RemoteSigned</Description>
+                    <Order>1</Order>
+                    <RequiresUserInput>false</RequiresUserInput>
+                </SynchronousCommand>
+                <SynchronousCommand wcm:action="add">
+                    <CommandLine>cmd.exe /c powershell -command "iwr -useb https://raw.githubusercontent.com/ansible/ansible/39d6c5ef7a3dd4e812edd517a2de86330f83b3a2/examples/scripts/ConfigureRemotingForAnsible.ps1 -OutFile c:\Windows\TEMP\enable_winrm.ps1"</CommandLine>
+                    <Description>Download WinRM Script</Description>
+                    <Order>2</Order>
+                    <RequiresUserInput>false</RequiresUserInput>
+                </SynchronousCommand>
+                <SynchronousCommand wcm:action="add">
+                    <CommandLine>cmd.exe /c powershell -file c:\Windows\TEMP\enable_winrm.ps1 -CertValidityDays 90 -DisableBasicAuth -GlobalHttpFirewallAccess</CommandLine>
+                    <Description>Enable WinRM</Description>
+                    <Order>3</Order>
+                    <RequiresUserInput>false</RequiresUserInput>
+                </SynchronousCommand>
+            </FirstLogonCommands>
+        </component>
+    </settings>
+    <cpi:offlineImage cpi:source="wim:c:/Windows10"
+        xmlns:cpi="urn:schemas-microsoft-com:cpi" />
+</unattend>
