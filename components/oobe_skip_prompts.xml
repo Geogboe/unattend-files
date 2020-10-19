@@ -1,0 +1,8 @@
+<OOBE>
+    <HideEULAPage>true</HideEULAPage>
+    <HideLocalAccountScreen>true</HideLocalAccountScreen>
+    <HideOEMRegistrationScreen>true</HideOEMRegistrationScreen>
+    <HideOnlineAccountScreens>true</HideOnlineAccountScreens>
+    <HideWirelessSetupInOOBE>true</HideWirelessSetupInOOBE>
+    <ProtectYourPC>3</ProtectYourPC>
+</OOBE>
