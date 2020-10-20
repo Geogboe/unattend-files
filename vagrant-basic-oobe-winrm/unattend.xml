@@ -73,7 +73,7 @@
                     <RequiresUserInput>false</RequiresUserInput>
                 </SynchronousCommand>
                 <SynchronousCommand wcm:action="add">
-                    <CommandLine>cmd.exe /c powershell -file c:\Windows\TEMP\enable_winrm.ps1 -CertValidityDays 90 -DisableBasicAuth -GlobalHttpFirewallAccess</CommandLine>
+                    <CommandLine>cmd.exe /c powershell -file c:\Windows\TEMP\enable_winrm.ps1 -CertValidityDays 90 -ForceNewSSLCert -DisableBasicAuth -GlobalHttpFirewallAccess</CommandLine>
                     <Description>Enable WinRM</Description>
                     <Order>3</Order>
                     <RequiresUserInput>false</RequiresUserInput>
