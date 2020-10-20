@@ -78,6 +78,12 @@
                     <Order>3</Order>
                     <RequiresUserInput>false</RequiresUserInput>
                 </SynchronousCommand>
+                <SynchronousCommand wcm:action="add">
+                    <CommandLine>cmd.exe /c powershell -command "Remove-Item c:\Windows\TEMP\enable_winrm.ps1 -Force"</CommandLine>
+                    <Description>Cleanup WinRM Script</Description>
+                    <Order>4</Order>
+                    <RequiresUserInput>false</RequiresUserInput>
+                </SynchronousCommand>
             </FirstLogonCommands>
         </component>
     </settings>
