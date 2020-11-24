@@ -8,7 +8,7 @@
             versionScope="nonSxS"
             xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State"
             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-            <!-- Disables all p;rompts for language and locale selection during oobe -->
+            <!-- Disables all prompts for language and locale selection during oobe -->
             <InputLocale>en-US</InputLocale>
             <SystemLocale>en-US</SystemLocale>
             <UILanguage>en-US</UILanguage>
